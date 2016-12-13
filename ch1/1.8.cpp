@@ -1,4 +1,4 @@
-// Copyright (C) yckuo - All Rights Reserved
+/* Copyright (C) yckuo - All Rights Reserved */
 
 #include <iostream>
 #include <fstream>
