@@ -9,6 +9,7 @@ class ListNode {
 public:
     ListNode(int val);
     void Print();
+    ListNode* Copy();
     static ListNode* Read(istream& stream);
     static ListNode* Read(istream& stream, int N);
 

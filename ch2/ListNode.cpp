@@ -5,13 +5,19 @@
 #include "ListNode.h"
 using namespace std;
 
-ListNode::ListNode(int val) : val(val) {
+ListNode::ListNode(int val) : val(val), next(NULL) {
 }
 
 void ListNode::Print() {
     cout << this->val << " ";
     if (this->next == NULL) cout << endl;
     else this->next->Print();
+}
+
+ListNode* ListNode::Copy() {
+    ListNode *node = new ListNode(this->val);
+    if (this->next) node->next = this->next->Copy();
+    return node;
 }
 
 ListNode* ListNode::Read(istream& stream) {
