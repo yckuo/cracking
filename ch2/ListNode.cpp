@@ -27,3 +27,16 @@ ListNode* ListNode::Read(istream& stream) {
     return p;
 }
 
+ListNode* ListNode::Read(istream& stream, int N) {
+    int val;
+    ListNode *dummy = new ListNode(0), *p = dummy;
+    for (int i=0; i<N; i++) {
+        stream >> val;
+        p->next = new ListNode(val);
+        p = p->next;
+    }
+
+    p = dummy->next;
+    delete dummy;
+    return p;
+}

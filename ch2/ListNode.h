@@ -1,4 +1,4 @@
- /* Copyright (C) yckuo - All Rights Reserved */
+/* Copyright (C) yckuo - All Rights Reserved */
 
 #pragma once
 
@@ -10,6 +10,7 @@ public:
     ListNode(int val);
     void Print();
     static ListNode* Read(istream& stream);
+    static ListNode* Read(istream& stream, int N);
 
     int val;
     ListNode *next;
