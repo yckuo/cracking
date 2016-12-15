@@ -18,7 +18,20 @@ public:
                 node->next = next;
             }
         }
-        
+    }
+
+    void RemoveDups2(ListNode* head) {
+        for (ListNode *node = head; node; node = node->next) {
+            for (ListNode *check = node; check->next;) {
+                if (check->next->val == node->val) {
+                    ListNode* next = check->next->next;
+                    delete check->next;
+                    check->next = next;
+                } else {
+                    check = check->next;
+                }
+            }
+        }
     }
 };
 
@@ -29,7 +42,7 @@ int main(int argc, char** argv) {
     ListNode *head = ListNode::Read(cin);
     head->Print();
 
-    sol.RemoveDups1(head);
+    sol.RemoveDups2(head);
 
     head->Print();
 
