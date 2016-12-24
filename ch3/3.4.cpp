@@ -8,27 +8,40 @@ using namespace std;
 
 class MyQueue {
 public:
+    MyQueue() : in2(false) {}
+
     void Push(int x) {
+        if (in2) {
+            Dump(stk2, stk1);
+            in2 = false;
+        }
         stk1.push(x);
     }
 
     int Front() {
-        if (stk1.empty()) return 0; // throw an empty stack exception
-        Dump(stk1, stk2);
+        if (!in2 && stk1.empty() || in2 && stk2.empty()) return 0; // throw an empty stack exception
+        
+        if (!in2) {
+            Dump(stk1, stk2);
+            in2 = true;
+        }
         int ret = stk2.top();
-        Dump(stk2, stk1);
         return ret;
     }
 
     void Pop() {
-        if (stk1.empty()) return; // throw an empty stack exception
-        Dump(stk1, stk2);
+        if (!in2 && stk1.empty() || in2 && stk2.empty()) return; // throw an empty stack exception
+        
+        if (!in2) {
+            Dump(stk1, stk2);
+            in2 = true;
+        }
         stk2.pop();
-        Dump(stk2, stk1);
     }
 
 private:
     stack<int> stk1, stk2;
+    bool in2;
 
     void Dump(stack<int>& x, stack<int>& y) {
         while (!x.empty()) {
