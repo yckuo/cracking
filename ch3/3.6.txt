@@ -1,0 +1,2 @@
+e joe 1 e mary 0 e peter 1 e albert 1 e susan 0 e howard 1 a d e bob 1 e sue 0 c
+a e joe 1 c e bob 1 e cat 0 e candy 0 e sue 0 d d d a e john 1 d c a
