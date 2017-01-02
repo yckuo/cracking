@@ -6,41 +6,64 @@
 #include <list>
 using namespace std;
 
-class ListNode {
+class Animal {
 public:
-    ListNode(string name, bool isDog, int timestamp) : name(name), isDog(isDog), timestamp(timestamp) {
+    Animal(string name, int timestamp) : name(name), timestamp(timestamp) {
     }
+    string getName() {
+        return this->name;
+    }
+    int getTimeStamp() {
+        return this->timestamp;
+    }
+    bool isOlderThan(Animal a) {
+        return this->timestamp < a.getTimeStamp();
+    }
+protected:
     string name;
-    bool isDog;
     int timestamp;
 };
 
-class Solution {
+class Dog : public Animal {
 public:
-    Solution() : timestamp(0) {
+    Dog(string name, int timestamp) : Animal(name, timestamp) {
+    }
+};
+
+class Cat : public Animal {
+public:
+    Cat(string name, int timestamp) : Animal(name, timestamp) {
+    }
+};
+
+class AnimalQueue {
+public:
+    AnimalQueue() : timestamp(0) {
     }
 
     void Enqueue(string name, bool isDog) {
-        if (isDog) dogs.push_back(ListNode(name, true, timestamp++));
-        else cats.push_back(ListNode(name, false, timestamp++));
+        if (isDog) dogs.push_back(Dog(name, timestamp));
+        else cats.push_back(Cat(name, timestamp));
+        timestamp++;
     }
 
     string DequeueAny() {
         if (dogs.empty() && cats.empty()) return "#";
         string ret = "#";
         if (dogs.empty()) {
-            ret = cats.front().name;
+            ret = cats.front().getName();
             cats.pop_front();
         } else if (cats.empty()) {
-            ret = dogs.front().name;
+            ret = dogs.front().getName();
             dogs.pop_front();
         } else {
-            ListNode dog = dogs.front(), cat = cats.front();
-            if (dog.timestamp < cat.timestamp) {
-                ret = dog.name;
+            Dog dog = dogs.front();
+            Cat cat = cats.front();
+            if (dog.isOlderThan(cat)) {
+                ret = dogs.front().getName();
                 dogs.pop_front();
             } else {
-                ret = cat.name;
+                ret = cats.front().getName();
                 cats.pop_front();
             }
         }
@@ -49,19 +72,21 @@ public:
 
     string DequeueDog() {
         if (dogs.empty()) return "#";
-        string ret = dogs.front().name;
+        Dog dog = dogs.front();
         dogs.pop_front();
-        return ret;
+        return dog.getName();
     }
 
     string DequeueCat() {
         if (cats.empty()) return "#";
-        string ret = cats.front().name;
+        Cat cat = cats.front();
         cats.pop_front();
-        return ret;
+        return cat.getName();
     }
+
 private:
-    list<ListNode> dogs, cats;
+    list<Dog> dogs;
+    list<Cat> cats;
     int timestamp;
 };
 
@@ -70,20 +95,20 @@ int main(int argc, char** argv) {
     string line;
     while (getline(cin, line)) {
         istringstream iss(line);
-        Solution sol;
+        AnimalQueue q;
         string token, name;
         int dogOrCat;
         while (iss >> token) {
             if (token == "e") {
                 iss >> name >> dogOrCat;
-                sol.Enqueue(name, dogOrCat == 1);
+                q.Enqueue(name, dogOrCat == 1);
                 cout << "enqueued";
             } else if (token == "a") {
-                cout << sol.DequeueAny();
+                cout << q.DequeueAny();
             } else if (token == "d") {
-                cout << sol.DequeueDog();
+                cout << q.DequeueDog();
             } else if (token == "c") {
-                cout << sol.DequeueCat();
+                cout << q.DequeueCat();
             }
             cout << " ";
         }
