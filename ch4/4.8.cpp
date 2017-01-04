@@ -61,13 +61,30 @@ public:
     // If root is the ancestor of only one of the two nodes, return that node.
     // Otherwise return NULL
     TreeNode* FirstCommonAncestor(TreeNode* node1, TreeNode* node2, TreeNode* root) {
+        // Important: if either node1 or node2 is not a descendent of root, then return NULL.
+        if (!Find(root, node1)) return NULL;
+        if (!Find(root, node2)) return NULL;
+
+        return helper(node1, node2, root);
+    }
+
+private:
+    TreeNode* helper(TreeNode* node1, TreeNode* node2, TreeNode* root) {
         if (!root) return NULL;
         if (root == node1 || root == node2) return root;
-        TreeNode* left = FirstCommonAncestor(node1, node2, root->left);
-        TreeNode* right = FirstCommonAncestor(node1, node2, root->right);
+        TreeNode* left = helper(node1, node2, root->left);
+        TreeNode* right = helper(node1, node2, root->right);
         if (!left) return right;
         if (!right) return left;
         return root;
+    }
+
+    bool Find(TreeNode* root, TreeNode* node) {
+        if (root == node) return true;
+        if (!root) return false;
+        if (root->left && Find(root->left, node)) return true;
+        if (root->right && Find(root->right, node)) return true;
+        return false;
     }
 };
 
@@ -83,7 +100,8 @@ int main(int argc, char** argv) {
         iss2 >> v1 >> v2;
         TreeNode *node1 = root->Search(v1), *node2 = root->Search(v2);
         TreeNode *ans = sol.FirstCommonAncestor(node1, node2, root);
-        cout << ans->val << endl;
+        if (!ans) cout << "INVALID" << endl;
+        else cout << ans->val << endl;
     }
 
     return 0;
