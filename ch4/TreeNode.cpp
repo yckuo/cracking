@@ -59,3 +59,16 @@ TreeNode* TreeNode::Read(istream& stream) {
     }
     return ret;
 }
+
+TreeNode* TreeNode::Search(int val) {
+    if (this->val == val) return this;
+    if (this->left) {
+        TreeNode* l = this->left->Search(val);
+        if (l) return l;
+    }
+    if (this->right) {
+        TreeNode* r = this->right->Search(val);
+        if (r) return r;
+    }
+    return NULL;
+}

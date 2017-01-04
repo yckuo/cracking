@@ -10,6 +10,7 @@ public:
     TreeNode(int val);
     void Print();
     static TreeNode* Read(istream& stream);
+    TreeNode* Search(int val);
 
     int val;
     TreeNode *left, *right;
