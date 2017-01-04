@@ -80,10 +80,10 @@ private:
     }
 
     bool Find(TreeNode* root, TreeNode* node) {
-        if (root == node) return true;
         if (!root) return false;
-        if (root->left && Find(root->left, node)) return true;
-        if (root->right && Find(root->right, node)) return true;
+        if (root == node) return true;
+        if (Find(root->left, node)) return true;
+        if (Find(root->right, node)) return true;
         return false;
     }
 };
